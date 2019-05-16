@@ -34,21 +34,22 @@ function rp_shortcode($atts){
 		'category__in' => $categories_ids,
 	]);
 
-	$output .= $title;
-
-	$output .= '<ul>';
+	
 	if ($posts->have_posts()) :
-		while ($posts->have_posts()) : $posts->the_post();
-			$output .= '<li><a href="' . get_permalink().'">';
-				$output .= get_the_title(); 
-			$output .= '</a></li>';
-			// $output .= " By:" . get_the_author();
-			// $output .= " Posted:" . human_time_diff(get_the_time('U')) . ' ago';
-			// $output .= get_the_category_list() . '<br>';
-		endwhile;
+		$output .= $title;
+		$output .= '<ul>';
+			while ($posts->have_posts()) : $posts->the_post();
+				$output .= '<li><a href="' . get_permalink().'">';
+					$output .= get_the_title(); 
+				$output .= '</a></li>';
+				// $output .= " By:" . get_the_author();
+				// $output .= " Posted:" . human_time_diff(get_the_time('U')) . ' ago';
+				// $output .= get_the_category_list() . '<br>';
+			endwhile;
+		$output.= '</ul>';
 	endif;
 	
-	$output.= '</ul>';
+	
 
 	wp_reset_postdata();
 	return $output;
