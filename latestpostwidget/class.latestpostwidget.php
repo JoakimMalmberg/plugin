@@ -29,29 +29,29 @@ class LatestPostWidget extends WP_Widget {
 	 */
 	public function widget($args, $instance) {
 		extract(shortcode_atts([
-			'posts' => 3,
+			'posts' => -1,
 		], $atts));
 
 		$posts = new WP_Query([
 			'posts_per_page' => $instance['posts'],
 		]);
 
-		$output .= '<ul>';
-
 		if ($posts->have_posts()) :
-			while ($posts->have_posts()) : $posts->the_post();
-				$output .= '<li><a href="' . get_permalink().'">';
-					$output .= get_the_title(); 
-				$output .= '</a></li>';
-				$output .= " By:" . get_the_author();
-				$output .= " Posted:" . human_time_diff(get_the_time('U')) . ' ago';
-				$output .= get_the_category_list() . '<br>';
-			endwhile;
+			$output = '<ul>';
+				while ($posts->have_posts()) : $posts->the_post();
+					$output .= '<li><a href="' . get_permalink().'">';
+						$output .= get_the_title(); 
+					$output .= '</a></li>';
+					if($instance['meta_data']) :
+						$output .= " By:" . get_the_author();
+						$output .= " Posted:" . human_time_diff(get_the_time('U')) . ' ago';
+						$output .= get_the_category_list() . '<br>';
+					endif;
+				endwhile;
+				wp_reset_postdata();
+			$output.= '</ul>';
 		endif;
 		
-		$output.= '</ul>';
-
-		wp_reset_postdata();
 		echo $output;
 	}
 
@@ -70,18 +70,40 @@ class LatestPostWidget extends WP_Widget {
 			$posts = __('posts', 'latestpostwidget');
 		}
 
+		if (isset($instance['meta_data'])) {
+			$meta_data = $instance['meta_data'];
+		}
+		else {
+			$meta_data = false;
+		}
+
 		?>
 
 		<p>
 			<label for="<?php echo $this->get_field_name('posts'); ?>">
 				<?php _e('Posts:'); ?>
 			</label>
-			<input class="widefat" id="<?php echo $this->get_field_id('posts'); ?>" 
-			name="<?php echo $this->get_field_name('posts'); ?>" 
-			type="number" 
-			value="<?php echo esc_attr($posts); ?>" />
-		 </p>
-		 
+			<input 
+				class="widefat" id="<?php echo $this->get_field_id('posts'); ?>" 
+				name="<?php echo $this->get_field_name('posts'); ?>" 
+				type="number"
+				min="1"
+				value="<?php echo $posts; ?>"
+			/>
+		</p>
+		<p>
+			<label for="<?php echo $this->get_field_name('meta_data'); ?>">
+				<?php _e('Meta Data:'); ?>
+			</label>
+			<input 
+				class="widefat" 
+				id="<?php echo $this->get_field_id('meta_data'); ?>" 
+				name="<?php echo $this->get_field_name('meta_data'); ?>" 
+				type="checkbox" 
+				value="1"
+				<?php echo $meta_data ? 'checked' : ''; ?>
+			/>
+		</p>
 		
 	<?php 
 
@@ -100,9 +122,13 @@ class LatestPostWidget extends WP_Widget {
 	public function update($new_instance, $old_instance) {
 		$instance = [];
 
-		$instance['posts'] = (!empty($new_instance['posts'])) 
+		$instance['posts'] = (!empty($new_instance['posts'])) && 
+		(($new_instance['posts']) > 0)
 		? strip_tags($new_instance['posts']) 
 		: '';
+
+		$instance['meta_data'] = (!empty($new_instance['meta_data']));
+
 
 		return $instance;
 	}
