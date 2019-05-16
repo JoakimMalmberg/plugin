@@ -12,19 +12,14 @@
 * Domain Path: /languages
 * Network:
 **/
-function rp_shortcode($atts){
+function rp_get_related_posts($user_atts = [], $content = null, $tag = ''){
 	extract(shortcode_atts([
 		'posts' => -1,
-		'title' => 'Realted Posts'
+		'title' => 'Realted Posts',
+		'category' => -1,
 	], $atts));
 
 	$current_post_id = get_the_ID();
-	// $current_post_categories = get_the_category();
-	// $categories_ids = [];
-
-	// foreach($current_post_categories as $current_post_category){
-	// 	array_push($categories_ids, $current_post_category->$term_id);
-	// }
 	
 	$categories_ids = wp_get_post_terms($current_post_id, 'category', ['fields' => 'ids']);
 
@@ -34,7 +29,6 @@ function rp_shortcode($atts){
 		'category__in' => $categories_ids,
 	]);
 
-	
 	if ($posts->have_posts()) :
 		$output .= $title;
 		$output .= '<ul>';
@@ -42,22 +36,35 @@ function rp_shortcode($atts){
 				$output .= '<li><a href="' . get_permalink().'">';
 					$output .= get_the_title(); 
 				$output .= '</a></li>';
-				// $output .= " By:" . get_the_author();
-				// $output .= " Posted:" . human_time_diff(get_the_time('U')) . ' ago';
-				// $output .= get_the_category_list() . '<br>';
 			endwhile;
+			wp_reset_postdata();
 		$output.= '</ul>';
+	else :
+		$output .= "No Related Posts";
 	endif;
 	
-	
-
-	wp_reset_postdata();
 	return $output;
 }
 
+
+function rp_shortcode($user_atts = [], $content = null, $tag = ''){
+	return rp_get_related_posts($user_atts, $content, $tag);
+}
+
 function rp_init() {
+
 	add_shortcode('relatedposts', 'rp_shortcode');
+
 }
 add_action('init', 'rp_init');
 
 
+function rp_the_content($content){
+	if(is_single() && !has_shortcode($content, 'relatedposts')){
+		$related_posts = rp_get_related_posts();
+		$content = $content . $related_posts;
+	}
+	return $content;
+}
+
+add_filter('the_content', 'rp_the_content');
