@@ -5,7 +5,6 @@
  */
 
 class StarWarsWidget extends WP_Widget {
-
 	/**
 	 * Register widget with WordPress.
 	 */
@@ -35,40 +34,57 @@ class StarWarsWidget extends WP_Widget {
 		echo $before_widget;
 
 		// title
-		if (! empty($title)) {
+		if (!empty($title)) {
 			echo $before_title . $title . $after_title;
 		}
 
-		//Content
-		$films = swapi_get_films();
-		if($films){
+		$luke = swapi_get_character(1);
+		echo "Luke is {$luke->height} cm tall.<br>";
+		$someone = swapi_get_character(2);
+		echo "{$someone->name} is {$someone->height} cm tall.<br><br>";
+
+		//Vehicles
+		$vehicles = swapi_get_vehicles();
+		if ($vehicles) {
+			echo "<p>Total number of vehicles: " . count($vehicles) . "</p>";
 			echo '<ul>';
-			foreach($films as $film){
-				$character_names = [];
-				foreach($film->characters as $character_url){
-					$exploded_character_url = explode('/', $character_url);
-					$character_id = $exploded_character_url[5];
-					$character = swapi_get_character($character_id);
-					array_push($character_names, $character->name);
-				}
+			foreach ($vehicles as $vehicle) {
 				?>
-				<li>
-					<?php echo $film->title; ?><br>
-					<small>
-						Release date: <?php echo $film->release_date; ?><br>
-						Episode: <?php echo $film->episode_id; ?><br>
-						Characters: <?php echo implode(", ", $character_names); ?>
-					</small>
-				</li>
-				<?php
+					<li>
+						<?php echo $vehicle->name; ?><br>
+						<small>
+							Manufacturer: <?php echo $vehicle->manufacturer; ?><br>
+							Model: <?php echo $vehicle->model; ?><br>
+						</small>
+					</li>
+				<?php	
 			}
 			echo '</ul>';
-		}else{
+		} else {
 			echo "Wrong!";
 		}
-		
 
-		// close widget
+		//Characters
+		$characters = swapi_get_characters();
+		if ($characters) {
+			echo "<p>Total number of characters: " . count($characters) . "</p>";
+			echo '<ul>';
+			foreach ($characters as $character) {
+				?>
+					<li>
+						<?php echo $character->name; ?><br>
+						<small>
+							Birth Year: <?php echo $character->birth_year; ?><br>
+							Height: <?php echo $character->height; ?> cm<br>
+							Mass: <?php echo $character->mass; ?> kg<br>
+						</small>
+					</li>
+				<?php	
+			}
+			echo '</ul>';
+		} else {
+			echo "Wrong!";
+		}
 		echo $after_widget;
 	}
 
@@ -87,25 +103,16 @@ class StarWarsWidget extends WP_Widget {
 		}
 
 		?>
-
 		<!-- title -->
 		<p>
-			<label
-				for="<?php echo $this->get_field_name('title'); ?>"
-			>
+			<label for="<?php echo $this->get_field_name('title'); ?>">
 				<?php _e('Title:'); ?>
 			</label>
 
-			<input
-				class="widefat"
-				id="<?php echo $this->get_field_id('title'); ?>"
-				name="<?php echo $this->get_field_name('title'); ?>"
-				type="text"
-				value="<?php echo esc_attr($title); ?>"
-			/>
+			<input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo esc_attr($title); ?>" />
 		</p>
 		<!-- /title -->
-	<?php
+		<?php
 	}
 
 	/**
@@ -127,5 +134,4 @@ class StarWarsWidget extends WP_Widget {
 
 		return $instance;
 	}
-
 } // class StarWarsWidget
