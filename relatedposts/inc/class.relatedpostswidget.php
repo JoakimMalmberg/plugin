@@ -42,11 +42,11 @@ class RelatedPostsWidget extends WP_Widget {
 		}
 
 		// content
-		$num_posts = $instance['num_posts'];
+
 		echo wrp_get_related_posts([
-			'show_metadata' => $instence['show_metadata'],
-			'categories' => $instence['categories'],
-			'posts' => $num_posts,
+			'show_metadata' => $instance['show_metadata'],
+			'categories' => $instance['categories'],
+			'posts' => $instance['num_posts'],
 			'title' => false,
 		]);
 
@@ -65,7 +65,7 @@ class RelatedPostsWidget extends WP_Widget {
 		if (isset($instance['title'])) {
 			$title = $instance['title'];
 		} else {
-			$title = __('Related Posts', 'wcms18-relatedposts-widget');
+			$title = get_option('wrp_default_title', __('Related Posts', 'wcms18-relatedposts'));
 		}
 
 		$categories = isset($instance['categories'])
@@ -183,6 +183,7 @@ class RelatedPostsWidget extends WP_Widget {
 			: 3;
 
 		$instance['show_metadata'] = (!empty($new_instance['show_metadata']));
+
 		return $instance;
 	}
 } // class RelatedPostsWidget

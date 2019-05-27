@@ -5,7 +5,8 @@ function wrp_add_settings_page_to_menu(){
 	add_submenu_page(
 		'options-general.php',
 		'WCMS18 Related Posts Settings',
-		'Related Posts', 'manage_options',
+		'Related Posts', 
+		'manage_options',
 		'relatedposts',
 		'wrp_settings_page'
 	);
@@ -83,6 +84,14 @@ add_action('admin_init', 'wrp_settings_init');
 function wrp_general_options_section(){
 	?>
 		<p>This is section with settings</p>
+
+		<?php
+			var_dump([
+				'wrp_default_title' => get_option('wrp_default_title'),
+				'wrp_add_to_posts' => get_option('wrp_add_to_posts'),
+			]);
+
+		?>
 	<?php
 }
 
@@ -90,8 +99,8 @@ function wrp_default_title_cb(){
 	?>
 		<input 
 			type="text" 
-			name="wrp_default_title_cb" 
-			id="wrp_default_title_cb"
+			name="wrp_default_title" 
+			id="wrp_default_title"
 			value="<?php echo get_option('wrp_default_title', 'Related Posts'); ?>"
 		>
 	<?php

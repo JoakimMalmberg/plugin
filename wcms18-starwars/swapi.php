@@ -9,7 +9,7 @@ function swapi_get_url($url){
 	if(is_wp_error($response)){
 		return false;
 	}else{
-		return json_decode(wp_remote_retrieve_body( $response ));;
+		return json_decode(wp_remote_retrieve_body( $response ));
 	}
 }
 
