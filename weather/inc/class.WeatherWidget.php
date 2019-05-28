@@ -38,26 +38,24 @@ class WeatherWidget extends WP_Widget {
 			echo $before_title . $title . $after_title;
 		}
 
-		
+		$city = $instance['city'];
+		$country = $instance['country'];
 
-		//Content
-		$weather = wapi_get_weather();
-		if($weather){
-			echo '<ul>';
-			foreach($weather as $w){
-				?>
-				<li>
-					<?php echo $w->base; ?><br>
-				</li>
-				<?php
-			}
-			echo '</ul>';
-		}else{
-			echo "Wrong!";
+		$current_weather = wapi_get_weather($city, $country);
+
+
+		echo '<div class="weather-conditions">';
+		foreach($current_weather['conditions'] as $condition){
+			echo '<img 
+				src="http://openweathermap.org/img/w/' . $condition->icon . '.png"
+				title="' . $condition->description . '" 
+				alt="' . $condition->main . '"
+			>';
 		}
+		echo '</div>';
 
-		
-
+		echo "<strong>Temperature:</strong> " . $current_weather['temperature'] . "&deg; C<br>";
+		echo "<strong>Humidity:</strong> " . $current_weather['humidity'] . "%<br>";
 		
 		echo $after_widget;
 	}
@@ -76,6 +74,9 @@ class WeatherWidget extends WP_Widget {
 			$title = __('Weather', 'weather-widget');
 		}
 
+		$city = isset($instance['city']) ? $instance['city'] : 'Malmoe';
+		$country = isset($instance['country']) ? $instance['country'] : 'SE';
+
 		?>
 		<!-- title -->
 		<p>
@@ -92,6 +93,36 @@ class WeatherWidget extends WP_Widget {
 			/>
 		</p>
 		<!-- /title -->
+		<!-- city -->
+		<p>
+			<label for="<?php echo $this->get_field_name('city'); ?>">
+				<?php _e('city:'); ?>
+			</label>
+
+			<input 
+				class="widefat" 
+				id="<?php echo $this->get_field_id('city'); ?>" 
+				name="<?php echo $this->get_field_name('city'); ?>" 
+				type="text" 
+				value="<?php echo esc_attr($city); ?>" 
+			/>
+		</p>
+		<!-- /city -->
+		<!-- country -->
+		<p>
+			<label for="<?php echo $this->get_field_name('country'); ?>">
+				<?php _e('country:'); ?>
+			</label>
+
+			<input 
+				class="widefat" 
+				id="<?php echo $this->get_field_id('country'); ?>" 
+				name="<?php echo $this->get_field_name('country'); ?>" 
+				type="text" 
+				value="<?php echo esc_attr($country); ?>" 
+			/>
+		</p>
+		<!-- /country -->
 		<?php
 	}
 
@@ -112,6 +143,14 @@ class WeatherWidget extends WP_Widget {
 			? strip_tags($new_instance['title'])
 			: '';
 
+		$instance['city'] = (!empty($new_instance['city']))
+			? strip_tags($new_instance['city'])
+			: '';
+
+		$instance['country'] = (!empty($new_instance['country']))
+			? strip_tags($new_instance['country'])
+			: '';
+
 		return $instance;
 	}
-} // class StarWarsWidget
+}

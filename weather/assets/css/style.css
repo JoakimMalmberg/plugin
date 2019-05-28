@@ -1,0 +1,15 @@
+/**
+* Style
+*/
+
+.widget.widget_weather-widget{
+	padding-left: 1rem;
+	padding-right: 1rem;
+	padding-bottom: 1rem;
+	border-style: solid;
+	border-color: blue;
+}
+
+.widget.widget_weather-widget .weather-conditions {
+	text-align: center;
+}
