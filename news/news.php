@@ -1,7 +1,7 @@
 <?php
 /**
-* Plugin Name: Social Links
-* Description: Adds social icons
+* Plugin Name: News
+* Description: News Letter
 * Version:     0.1
 * Author:      Joakim Malmberg
 **/
@@ -12,16 +12,14 @@ if(!defined('ABSPATH')){
 }
 
 // Load Scripts
-require_once(plugin_dir_path(__FILE__) . '/inc/social-links-scripts.php');
+require_once(plugin_dir_path(__FILE__) . '/inc/news-scripts.php');
 
 // Load Class
-require_once(plugin_dir_path(__FILE__) . '/inc/social-links-class.php');
+require_once(plugin_dir_path(__FILE__) . '/inc/news-class.php');
 
 
 //Register Widget
-
-function register_social_links(){
-	register_widget('Social_Links_Widget');
+function register_news(){
+	register_widget('News_Widget');
 }
-
-add_action('widgets_init', 'register_social_links');
+add_action('widgets_init', 'register_news');
