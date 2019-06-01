@@ -41,21 +41,22 @@ class WeatherWidget extends WP_Widget {
 		$city = $instance['city'];
 		$country = $instance['country'];
 
-		$current_weather = wapi_get_weather($city, $country);
+		?>
+			<div class="current-weather">
+				<em><small>Loading...</small></em>
+			</div>
 
+			<script>
+				jQuery(document).ready(function(){
+					get_current_weather(
+						'<?php echo $widget_id; ?>', 
+						'<?php echo $city; ?>', 
+						'<?php echo $country; ?>',
+					);
+				});
+			</script>
 
-		echo '<div class="weather-conditions">';
-		foreach($current_weather['conditions'] as $condition){
-			echo '<img 
-				src="http://openweathermap.org/img/w/' . $condition->icon . '.png"
-				title="' . $condition->description . '" 
-				alt="' . $condition->main . '"
-			>';
-		}
-		echo '</div>';
-
-		echo "<strong>Temperature:</strong> " . $current_weather['temperature'] . "&deg; C<br>";
-		echo "<strong>Humidity:</strong> " . $current_weather['humidity'] . "%<br>";
+		<?php
 		
 		echo $after_widget;
 	}

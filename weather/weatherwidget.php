@@ -24,9 +24,9 @@ add_action('widgets_init', 'waw_widgets_init');
 function w18ww_enqueue_style(){
 	wp_enqueue_style( 'weather', plugin_dir_url( __FILE__ ) . 'assets/css/style.css' );
 
-	wp_enqueue_script( 'weather', plugin_dir_url( __FILE__ ) . 'assets/js/main.js', ['jquery'], false, true );
+	wp_enqueue_script( 'weather_js', plugin_dir_url( __FILE__ ) . 'assets/js/main.js', ['jquery'], false, true );
 
-	wp_localize_script( 'weather', 'my_ajax_obj', [
+	wp_localize_script( 'weather_js', 'weather_ajax_obj', [
 		'ajax_url' => admin_url('admin-ajax.php'),
 	]);
 }
@@ -35,7 +35,8 @@ add_action('wp_enqueue_scripts', 'w18ww_enqueue_style');
 
 //Respond to AJAX request fot 'get_current_weather'
 function w18ww_ajax_get_current_weather(){
-	$current_weather = wapi_get_weather('Lund', 'SE');
+
+	$current_weather = wapi_get_weather($_POST['city'], $_POST['country']);
 	
 	wp_send_json($current_weather);
 }
