@@ -1,0 +1,15 @@
+.todo-list h4{
+	margin: 0 !important;
+	padding: 10px 0 10px 0 !important;
+}
+
+.todo-list .priority-low{
+	color: black;
+}
+.todo-list .priority-normal{
+	color: green;
+}
+.todo-list .priority-hight{
+	color: red;
+}
+
