@@ -38,11 +38,6 @@ class StarWarsWidget extends WP_Widget {
 			echo $before_title . $title . $after_title;
 		}
 
-
-
-		$sw_films = $instance['starwars'];
-
-
 		?>
 			<div class="starwars">
 				<em><small>Loading...</small></em>
@@ -52,7 +47,6 @@ class StarWarsWidget extends WP_Widget {
 				jQuery(document).ready(function(){
 					get_starwars(
 						'<?php echo $widget_id; ?>', 
-						'<?php echo $sw_films; ?>',
 					);
 				});
 			</script>
