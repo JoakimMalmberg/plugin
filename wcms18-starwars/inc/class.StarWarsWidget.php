@@ -38,53 +38,27 @@ class StarWarsWidget extends WP_Widget {
 			echo $before_title . $title . $after_title;
 		}
 
-		$luke = swapi_get_character(1);
-		echo "Luke is {$luke->height} cm tall.<br>";
-		$someone = swapi_get_character(2);
-		echo "{$someone->name} is {$someone->height} cm tall.<br><br>";
 
-		//Vehicles
-		$vehicles = swapi_get_vehicles();
-		if ($vehicles) {
-			echo "<p>Total number of vehicles: " . count($vehicles) . "</p>";
-			echo '<ul>';
-			foreach ($vehicles as $vehicle) {
-				?>
-					<li>
-						<?php echo $vehicle->name; ?><br>
-						<small>
-							Manufacturer: <?php echo $vehicle->manufacturer; ?><br>
-							Model: <?php echo $vehicle->model; ?><br>
-						</small>
-					</li>
-				<?php	
-			}
-			echo '</ul>';
-		} else {
-			echo "Wrong!";
-		}
 
-		//Characters
-		$characters = swapi_get_characters();
-		if ($characters) {
-			echo "<p>Total number of characters: " . count($characters) . "</p>";
-			echo '<ul>';
-			foreach ($characters as $character) {
-				?>
-					<li>
-						<?php echo $character->name; ?><br>
-						<small>
-							Birth Year: <?php echo $character->birth_year; ?><br>
-							Height: <?php echo $character->height; ?> cm<br>
-							Mass: <?php echo $character->mass; ?> kg<br>
-						</small>
-					</li>
-				<?php	
-			}
-			echo '</ul>';
-		} else {
-			echo "Wrong!";
-		}
+		$sw_films = $instance['starwars'];
+
+
+		?>
+			<div class="starwars">
+				<em><small>Loading...</small></em>
+			</div>
+
+			<script>
+				jQuery(document).ready(function(){
+					get_starwars(
+						'<?php echo $widget_id; ?>', 
+						'<?php echo $sw_films; ?>',
+					);
+				});
+			</script>
+
+		<?php
+
 		echo $after_widget;
 	}
 
@@ -112,6 +86,8 @@ class StarWarsWidget extends WP_Widget {
 			<input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo esc_attr($title); ?>" />
 		</p>
 		<!-- /title -->
+
+
 		<?php
 	}
 

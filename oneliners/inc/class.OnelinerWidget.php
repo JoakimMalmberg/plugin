@@ -37,10 +37,6 @@ class OnelinerWidget extends WP_Widget {
 				Loading a funny oneliner...
 			</div>
 
-			<script>
-				
-			</script>
-
 		<?php
 		
 		echo $after_widget;
