@@ -22,7 +22,7 @@
  * @link       m42.se
  * @since      1.0.0
  *
- * @package    Wcms18_random_dog
+ * @package    Wcms18_Random_Dog
  */
 
 // If uninstall not called from WordPress, then exit.

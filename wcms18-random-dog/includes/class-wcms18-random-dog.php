@@ -9,8 +9,8 @@
  * @link       m42.se
  * @since      1.0.0
  *
- * @package    Wcms18_random_dog
- * @subpackage Wcms18_random_dog/includes
+ * @package    Wcms18_Random_Dog
+ * @subpackage Wcms18_Random_Dog/includes
  */
 
 /**
@@ -23,11 +23,11 @@
  * version of the plugin.
  *
  * @since      1.0.0
- * @package    Wcms18_random_dog
- * @subpackage Wcms18_random_dog/includes
- * @author     Joakim Malmberg <jmalmberg.web@gmail.com>
+ * @package    Wcms18_Random_Dog
+ * @subpackage Wcms18_Random_Dog/includes
+ * @author     Joakim Malmberg
  */
-class Wcms18_random_dog {
+class Wcms18_Random_Dog {
 
 	/**
 	 * The loader that's responsible for maintaining and registering all hooks that power
@@ -35,7 +35,7 @@ class Wcms18_random_dog {
 	 *
 	 * @since    1.0.0
 	 * @access   protected
-	 * @var      Wcms18_random_dog_Loader    $loader    Maintains and registers all hooks for the plugin.
+	 * @var      Wcms18_Random_Dog_Loader    $loader    Maintains and registers all hooks for the plugin.
 	 */
 	protected $loader;
 
@@ -72,13 +72,18 @@ class Wcms18_random_dog {
 		} else {
 			$this->version = '1.0.0';
 		}
-		$this->plugin_name = 'wcms18_random_dog';
+		$this->plugin_name = 'wcms18-random-dog';
 
 		$this->load_dependencies();
 		$this->set_locale();
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
 
+		// register widget
+		$this->register_widget();
+		
+		// register ajax action
+		$this->register_ajax_actions();
 	}
 
 	/**
@@ -86,10 +91,10 @@ class Wcms18_random_dog {
 	 *
 	 * Include the following files that make up the plugin:
 	 *
-	 * - Wcms18_random_dog_Loader. Orchestrates the hooks of the plugin.
-	 * - Wcms18_random_dog_i18n. Defines internationalization functionality.
-	 * - Wcms18_random_dog_Admin. Defines all hooks for the admin area.
-	 * - Wcms18_random_dog_Public. Defines all hooks for the public side of the site.
+	 * - Wcms18_Random_Dog_Loader. Orchestrates the hooks of the plugin.
+	 * - Wcms18_Random_Dog_i18n. Defines internationalization functionality.
+	 * - Wcms18_Random_Dog_Admin. Defines all hooks for the admin area.
+	 * - Wcms18_Random_Dog_Public. Defines all hooks for the public side of the site.
 	 *
 	 * Create an instance of the loader which will be used to register the hooks
 	 * with WordPress.
@@ -103,33 +108,38 @@ class Wcms18_random_dog {
 		 * The class responsible for orchestrating the actions and filters of the
 		 * core plugin.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wcms18_random_dog-loader.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wcms18-random-dog-loader.php';
 
 		/**
 		 * The class responsible for defining internationalization functionality
 		 * of the plugin.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wcms18_random_dog-i18n.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wcms18-random-dog-i18n.php';
+
+		/**
+		 * The class responsible for the widget of the plugin.
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wcms18-random-dog-widget.php';
 
 		/**
 		 * The class responsible for defining all actions that occur in the admin area.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-wcms18_random_dog-admin.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-wcms18-random-dog-admin.php';
 
 		/**
 		 * The class responsible for defining all actions that occur in the public-facing
 		 * side of the site.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-wcms18_random_dog-public.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-wcms18-random-dog-public.php';
 
-		$this->loader = new Wcms18_random_dog_Loader();
+		$this->loader = new Wcms18_Random_Dog_Loader();
 
 	}
 
 	/**
 	 * Define the locale for this plugin for internationalization.
 	 *
-	 * Uses the Wcms18_random_dog_i18n class in order to set the domain and to register the hook
+	 * Uses the Wcms18_Random_Dog_i18n class in order to set the domain and to register the hook
 	 * with WordPress.
 	 *
 	 * @since    1.0.0
@@ -137,7 +147,7 @@ class Wcms18_random_dog {
 	 */
 	private function set_locale() {
 
-		$plugin_i18n = new Wcms18_random_dog_i18n();
+		$plugin_i18n = new Wcms18_Random_Dog_i18n();
 
 		$this->loader->add_action( 'plugins_loaded', $plugin_i18n, 'load_plugin_textdomain' );
 
@@ -152,7 +162,7 @@ class Wcms18_random_dog {
 	 */
 	private function define_admin_hooks() {
 
-		$plugin_admin = new Wcms18_random_dog_Admin( $this->get_plugin_name(), $this->get_version() );
+		$plugin_admin = new Wcms18_Random_Dog_Admin( $this->get_plugin_name(), $this->get_version() );
 
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
@@ -168,12 +178,81 @@ class Wcms18_random_dog {
 	 */
 	private function define_public_hooks() {
 
-		$plugin_public = new Wcms18_random_dog_Public( $this->get_plugin_name(), $this->get_version() );
+		$plugin_public = new Wcms18_Random_Dog_Public( $this->get_plugin_name(), $this->get_version() );
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
 
 	}
+
+	/**
+	 * Register the widget.
+	 *
+	 * @since    1.0.0
+	 */
+	public function register_widget() {
+		add_action('widgets_init', function(){
+			register_widget('Wcms18_Random_Dog_Widget');
+		});
+	}
+
+	/**
+	 * Register ajax action.
+	 *
+	 * @since    1.0.0
+	 */
+	public function register_ajax_actions() {
+		add_action('wp_ajax_wcms18_random_dog__get',
+			[
+				$this,
+				'ajax_wcms18_random_dog__get'
+			]
+		);
+		add_action('wp_ajax_nopriv_wcms18_random_dog__get',
+			[
+				$this,
+				'ajax_wcms18_random_dog__get'
+			]
+		);
+	}
+	
+	/**
+	 * Register ajax action 'ajax_wcms18_random_dog__get()'
+	 *
+	 * @since    1.0.0
+	 */
+	public function ajax_wcms18_random_dog__get() {
+
+		$response = wp_remote_get('https://random.dog/woof.json');
+		if (is_wp_error($response) || wp_remote_retrieve_response_code($response) != 200) {
+			wp_send_json_error([
+				'error_code' => wp_remote_retrieve_response_code($response),
+				'error_msg' => wp_remote_retrieve_response_message($response),
+			]);
+		}
+
+		$body = wp_remote_retrieve_body($response);
+		$content = json_decode($body);
+
+		// 1. Find out path from URL
+		$url_path = parse_url($content->url, PHP_URL_PATH);
+
+		// 2. Find the file extension from the path
+		$file_extension = pathinfo($url_path, PATHINFO_EXTENSION);  // JPG
+
+		// 3. If extension is 'mp4' or 'ogv' or 'avi' or 'webm', set type to 'video'
+		$video_extensions = ['mp4', 'ogv', 'avi', 'webm'];
+		$file_extension_lowercase = strtolower($file_extension); // jpg
+		$is_video = in_array($file_extension_lowercase, $video_extensions);
+
+		wp_send_json_success([
+			'type' => $is_video ? "video" : "image",
+			'is_video' => $is_video,
+			'is_image' => !$is_video,
+			'src' => $content->url,
+		]);
+	}
+
 
 	/**
 	 * Run the loader to execute all of the hooks with WordPress.
@@ -199,7 +278,7 @@ class Wcms18_random_dog {
 	 * The reference to the class that orchestrates the hooks with the plugin.
 	 *
 	 * @since     1.0.0
-	 * @return    Wcms18_random_dog_Loader    Orchestrates the hooks of the plugin.
+	 * @return    Wcms18_Random_Dog_Loader    Orchestrates the hooks of the plugin.
 	 */
 	public function get_loader() {
 		return $this->loader;

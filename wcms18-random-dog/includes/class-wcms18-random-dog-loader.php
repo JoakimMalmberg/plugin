@@ -3,11 +3,11 @@
 /**
  * Register all actions and filters for the plugin
  *
- * @link       m42.se
+ * @link       
  * @since      1.0.0
  *
- * @package    Wcms18_random_dog
- * @subpackage Wcms18_random_dog/includes
+ * @package    Wcms18_Random_Dog
+ * @subpackage Wcms18_Random_Dog/includes
  */
 
 /**
@@ -17,11 +17,11 @@
  * the plugin, and register them with the WordPress API. Call the
  * run function to execute the list of actions and filters.
  *
- * @package    Wcms18_random_dog
- * @subpackage Wcms18_random_dog/includes
- * @author     Joakim Malmberg <jmalmberg.web@gmail.com>
+ * @package    Wcms18_Random_Dog
+ * @subpackage Wcms18_Random_Dog/includes
+ * @author     Joakim Malmberg
  */
-class Wcms18_random_dog_Loader {
+class Wcms18_Random_Dog_Loader {
 
 	/**
 	 * The array of actions registered with WordPress.

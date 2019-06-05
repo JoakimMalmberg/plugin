@@ -5,11 +5,11 @@
  *
  * This file is used to markup the admin-facing aspects of the plugin.
  *
- * @link       m42.se
+ * @link       thehiveresistance.com
  * @since      1.0.0
  *
- * @package    Wcms18_random_dog
- * @subpackage Wcms18_random_dog/admin/partials
+ * @package    Wcms18_Random_Dog
+ * @subpackage Wcms18_Random_Dog/admin/partials
  */
 ?>
 

@@ -10,18 +10,18 @@
  *
  * @link              m42.se
  * @since             1.0.0
- * @package           Wcms18_random_dog
+ * @package           Wcms18_Random_Dog
  *
  * @wordpress-plugin
  * Plugin Name:       WCMS18 Random Dog
- * Plugin URI:        plugins.test
+ * Plugin URI:        m42.se
  * Description:       This is a short description of what the plugin does. It's displayed in the WordPress admin area.
  * Version:           1.0.0
  * Author:            Joakim Malmberg
  * Author URI:        m42.se
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
- * Text Domain:       wcms18_random_dog
+ * Text Domain:       wcms18-random-dog
  * Domain Path:       /languages
  */
 
@@ -39,20 +39,20 @@ define( 'WCMS18_RANDOM_DOG_VERSION', '1.0.0' );
 
 /**
  * The code that runs during plugin activation.
- * This action is documented in includes/class-wcms18_random_dog-activator.php
+ * This action is documented in includes/class-wcms18-random-dog-activator.php
  */
 function activate_wcms18_random_dog() {
-	require_once plugin_dir_path( __FILE__ ) . 'includes/class-wcms18_random_dog-activator.php';
-	Wcms18_random_dog_Activator::activate();
+	require_once plugin_dir_path( __FILE__ ) . 'includes/class-wcms18-random-dog-activator.php';
+	Wcms18_Random_Dog_Activator::activate();
 }
 
 /**
  * The code that runs during plugin deactivation.
- * This action is documented in includes/class-wcms18_random_dog-deactivator.php
+ * This action is documented in includes/class-wcms18-random-dog-deactivator.php
  */
 function deactivate_wcms18_random_dog() {
-	require_once plugin_dir_path( __FILE__ ) . 'includes/class-wcms18_random_dog-deactivator.php';
-	Wcms18_random_dog_Deactivator::deactivate();
+	require_once plugin_dir_path( __FILE__ ) . 'includes/class-wcms18-random-dog-deactivator.php';
+	Wcms18_Random_Dog_Deactivator::deactivate();
 }
 
 register_activation_hook( __FILE__, 'activate_wcms18_random_dog' );
@@ -62,7 +62,7 @@ register_deactivation_hook( __FILE__, 'deactivate_wcms18_random_dog' );
  * The core plugin class that is used to define internationalization,
  * admin-specific hooks, and public-facing site hooks.
  */
-require plugin_dir_path( __FILE__ ) . 'includes/class-wcms18_random_dog.php';
+require plugin_dir_path( __FILE__ ) . 'includes/class-wcms18-random-dog.php';
 
 /**
  * Begins execution of the plugin.
@@ -75,8 +75,10 @@ require plugin_dir_path( __FILE__ ) . 'includes/class-wcms18_random_dog.php';
  */
 function run_wcms18_random_dog() {
 
-	$plugin = new Wcms18_random_dog();
+	$plugin = new Wcms18_Random_Dog();
 	$plugin->run();
 
 }
 run_wcms18_random_dog();
+
+

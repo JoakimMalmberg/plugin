@@ -3,11 +3,11 @@
 /**
  * Fired during plugin deactivation
  *
- * @link       m42.se
+ * @link       thehiveresistance.com
  * @since      1.0.0
  *
- * @package    Wcms18_random_dog
- * @subpackage Wcms18_random_dog/includes
+ * @package    Wcms18_Random_Dog
+ * @subpackage Wcms18_Random_Dog/includes
  */
 
 /**
@@ -16,11 +16,11 @@
  * This class defines all code necessary to run during the plugin's deactivation.
  *
  * @since      1.0.0
- * @package    Wcms18_random_dog
- * @subpackage Wcms18_random_dog/includes
- * @author     Joakim Malmberg <jmalmberg.web@gmail.com>
+ * @package    Wcms18_Random_Dog
+ * @subpackage Wcms18_Random_Dog/includes
+ * @author     Joakim Malmberg
  */
-class Wcms18_random_dog_Deactivator {
+class Wcms18_Random_Dog_Deactivator {
 
 	/**
 	 * Short Description. (use period)

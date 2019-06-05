@@ -6,11 +6,11 @@
  * Loads and defines the internationalization files for this plugin
  * so that it is ready for translation.
  *
- * @link       m42.se
+ * @link       thehiveresistance.com
  * @since      1.0.0
  *
- * @package    Wcms18_random_dog
- * @subpackage Wcms18_random_dog/includes
+ * @package    Wcms18_Random_Dog
+ * @subpackage Wcms18_Random_Dog/includes
  */
 
 /**
@@ -20,11 +20,11 @@
  * so that it is ready for translation.
  *
  * @since      1.0.0
- * @package    Wcms18_random_dog
- * @subpackage Wcms18_random_dog/includes
- * @author     Joakim Malmberg <jmalmberg.web@gmail.com>
+ * @package    Wcms18_Random_Dog
+ * @subpackage Wcms18_Random_Dog/includes
+ * @author     Joakim Malmberg
  */
-class Wcms18_random_dog_i18n {
+class Wcms18_Random_Dog_i18n {
 
 
 	/**
@@ -35,7 +35,7 @@ class Wcms18_random_dog_i18n {
 	public function load_plugin_textdomain() {
 
 		load_plugin_textdomain(
-			'wcms18_random_dog',
+			'wcms18-random-dog',
 			false,
 			dirname( dirname( plugin_basename( __FILE__ ) ) ) . '/languages/'
 		);

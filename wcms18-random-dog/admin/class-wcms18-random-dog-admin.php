@@ -3,11 +3,11 @@
 /**
  * The admin-specific functionality of the plugin.
  *
- * @link       m42.se
+ * @link       thehiveresistance.com
  * @since      1.0.0
  *
- * @package    Wcms18_random_dog
- * @subpackage Wcms18_random_dog/admin
+ * @package    Wcms18_Random_Dog
+ * @subpackage Wcms18_Random_Dog/admin
  */
 
 /**
@@ -16,11 +16,11 @@
  * Defines the plugin name, version, and two examples hooks for how to
  * enqueue the admin-specific stylesheet and JavaScript.
  *
- * @package    Wcms18_random_dog
- * @subpackage Wcms18_random_dog/admin
- * @author     Joakim Malmberg <jmalmberg.web@gmail.com>
+ * @package    Wcms18_Random_Dog
+ * @subpackage Wcms18_Random_Dog/admin
+ * @author     Johan Nordström <jn@thehiveresistance.com>
  */
-class Wcms18_random_dog_Admin {
+class Wcms18_Random_Dog_Admin {
 
 	/**
 	 * The ID of this plugin.
@@ -65,15 +65,15 @@ class Wcms18_random_dog_Admin {
 		 * This function is provided for demonstration purposes only.
 		 *
 		 * An instance of this class should be passed to the run() function
-		 * defined in Wcms18_random_dog_Loader as all of the hooks are defined
+		 * defined in Wcms18_Random_Dog_Loader as all of the hooks are defined
 		 * in that particular class.
 		 *
-		 * The Wcms18_random_dog_Loader will then create the relationship
+		 * The Wcms18_Random_Dog_Loader will then create the relationship
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
 
-		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/wcms18_random_dog-admin.css', array(), $this->version, 'all' );
+		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/wcms18-random-dog-admin.css', array(), $this->version, 'all' );
 
 	}
 
@@ -88,15 +88,15 @@ class Wcms18_random_dog_Admin {
 		 * This function is provided for demonstration purposes only.
 		 *
 		 * An instance of this class should be passed to the run() function
-		 * defined in Wcms18_random_dog_Loader as all of the hooks are defined
+		 * defined in Wcms18_Random_Dog_Loader as all of the hooks are defined
 		 * in that particular class.
 		 *
-		 * The Wcms18_random_dog_Loader will then create the relationship
+		 * The Wcms18_Random_Dog_Loader will then create the relationship
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
 
-		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/wcms18_random_dog-admin.js', array( 'jquery' ), $this->version, false );
+		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/wcms18-random-dog-admin.js', array( 'jquery' ), $this->version, false );
 
 	}
 
