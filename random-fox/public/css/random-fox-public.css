@@ -2,3 +2,8 @@
  * All of the CSS for your public-facing functionality should be
  * included in this file.
  */
+
+
+ .widget.widget_random-fox .content .loading{
+	 font-style: italic;
+ }
