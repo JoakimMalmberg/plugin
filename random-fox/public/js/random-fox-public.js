@@ -7,14 +7,15 @@
 				get_random_fox.ajax_url,
 				{
 					action: 'random_fox__get'
-				},
-				function(random_fox){
-					var output = "";
-					output += '<img src="' + random_fox.data.image + '"><br>';
-					output += '<p> "' + random_fox.data.fact + '" </p>';
-					$(widget).find('.content').html(output);
 				}
-			);
+			).done(function(random_fox){
+				var output = "";
+				output += '<img src="' + random_fox.data.image + '"><br><br>';
+				output += '<p>' + random_fox.data.fact + '</p>';
+				$(widget).find('.content').html(output);
+			}).fail(function(error){
+				console.log("something went wrong!", error);
+			});
 		});
 	});
 })( jQuery );
