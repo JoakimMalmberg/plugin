@@ -81,6 +81,9 @@ class Random_Fox {
 		
 		// register widget
 		$this->register_widget();
+		
+		// register ajax actions
+		$this->register_ajax_actions();
 
 	}
 
@@ -192,6 +195,50 @@ class Random_Fox {
 		add_action('widgets_init', function(){
 			register_widget('Random_Fox_Widget');
 		});
+	}
+	
+	/**
+	 * Register ajax actions
+	 *
+	 * @since    1.0.0
+	 */
+	public function register_ajax_actions() {
+		//Register action 'random_fox__get'
+		add_action('wp_ajax_random_fox__get', [$this, 'ajax_random_fox__get']);
+		add_action('wp_ajax_nopriv_random_fox__get', [$this, 'ajax_random_fox__get']);
+	}
+	
+	/**
+	 * Respond to ajax action 'ajax_random_fox__get'
+	 *
+	 * @since    1.0.0
+	 */
+	public function ajax_random_fox__get() {
+		//Get random fox image
+		$response_image = wp_remote_get('https://randomfox.ca/floof/');
+		if(is_wp_error( $response_image ) || wp_remote_retrieve_response_code( $response_image ) != 200){
+			wp_send_json_error([
+				'error_code' => wp_remote_retrieve_response_code( $response_image ),
+				'error_msg' => wp_remote_retrieve_response_message( $response_image ),
+			]);
+		}
+		$content_image = json_decode(wp_remote_retrieve_body( $response_image ));
+
+		//Get random fox fact
+		$response_fact = wp_remote_get('https://some-random-api.ml/facts/fox');
+		if(is_wp_error( $response_fact ) || wp_remote_retrieve_response_code( $response_fact ) != 200){
+			wp_send_json_error([
+				'error_code' => wp_remote_retrieve_response_code( $response_fact ),
+				'error_msg' => wp_remote_retrieve_response_message( $response_fact ),
+			]);
+		}
+		$content_fact = json_decode(wp_remote_retrieve_body( $response_fact ));
+
+
+		wp_send_json_success([
+			'image' => $content_image->image,
+			'fact' => $content_fact->fact
+		]);
 	}
 
 	/**
