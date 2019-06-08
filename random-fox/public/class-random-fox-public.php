@@ -98,6 +98,9 @@ class Random_Fox_Public {
 
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/random-fox-public.js', array( 'jquery' ), $this->version, true );
 
+		wp_localize_script($this->plugin_name, 'get_random_fox', [
+			'ajax_url' => admin_url('admin-ajax.php'),
+		]);
 	}
 
 }
