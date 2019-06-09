@@ -96,8 +96,11 @@ class Random_Animals_Public {
 		 * class.
 		 */
 
-		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/random-animals-public.js', array( 'jquery' ), $this->version, false );
+		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/random-animals-public.js', array( 'jquery' ), $this->version, true );
 
+		wp_localize_script($this->plugin_name, 'get_random_animal', [
+			'ajax_url' => admin_url('admin-ajax.php'),
+		]);
 	}
 
 }
