@@ -81,6 +81,7 @@ class Wcms18_Year_Book {
 		
 		$this->register_filter_the_content();
 		$this->add_action_init();
+		$this->register_widget();
 
 	}
 
@@ -118,6 +119,11 @@ class Wcms18_Year_Book {
 		 * of the plugin.
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wcms18-year-book-i18n.php';
+		
+		/**
+		 * Widget
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wcms18-year-book-widget.php';
 
 		/**
 		 * The class responsible for defining all actions that occur in the admin area.
@@ -182,6 +188,18 @@ class Wcms18_Year_Book {
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
 
 	}
+
+	/**
+	 * Register the widget.
+	 *
+	 * @since    1.0.0
+	 */
+	public function register_widget() {
+		add_action('widgets_init', function(){
+			register_widget('Wcms18_Year_Book_Widget');
+		});
+	}
+
 
 	/**
 	 * Run the loader to execute all of the hooks with WordPress.

@@ -3,7 +3,7 @@
  * included in this file.
  */
 
- 
+
 .w18yb-courses{
 	background-color: rgb(139, 203, 228);
 	color: aliceblue;
@@ -31,4 +31,28 @@
 .single-post-wrap.entry-content .student-details h2 {
 	margin: 0;
 	font-size: 20px;
+}
+
+/*   Widget   */
+
+.widget.widget_wcms18-year-book-widget .student-details h2 {
+	margin: 0;
+	font-size: 17px;
+}
+
+.widget.widget_wcms18-year-book-widget .w18yb-courses h2 {
+	margin: 0;
+	font-size: 17px;
+}
+
+.widget.widget_wcms18-year-book-widget .w18yb-courses a {
+	font-weight: bold;
+	text-decoration: underline;
+
+}
+
+.widget.widget_wcms18-year-book-widget .w18yb-courses a:hover {
+	color: aliceblue;
+	font-weight: bold;
+	text-decoration: underline;
 }
