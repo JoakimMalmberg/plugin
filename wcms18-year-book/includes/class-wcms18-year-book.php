@@ -78,6 +78,9 @@ class Wcms18_Year_Book {
 		$this->set_locale();
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
+		
+		$this->register_filter_the_content();
+		$this->add_action_init();
 
 	}
 
@@ -104,6 +107,11 @@ class Wcms18_Year_Book {
 		 * core plugin.
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wcms18-year-book-loader.php';
+		
+		/**
+		 * Custom fields
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/acf/acf.php';
 
 		/**
 		 * The class responsible for defining internationalization functionality
@@ -182,6 +190,215 @@ class Wcms18_Year_Book {
 	 */
 	public function run() {
 		$this->loader->run();
+	}
+
+	/**
+	 * Register a function for filter register_filter_the_content
+	 *
+	 * @since    1.0.0
+	 */
+	public function register_filter_the_content() {
+		add_filter('the_content', [$this, 'filter_the_content']);
+	}
+
+	/**
+	 * Add function init hook
+	 *
+	 * @since    1.0.0
+	 */
+	public function add_action_init() {
+		//CPT
+		add_action('init', [$this, 'register_cpts']);
+		//CT
+		add_action( 'init', [$this, 'register_cts'] );
+		//ACF
+		add_action( 'init', [$this, 'register_acf'] );
+	}
+
+	/**
+	 * Register Custom Post Types
+	 *
+	 * @since    1.0.0
+	 */
+	public function register_cpts() {
+		
+		/**
+		 * Post Type: Students.
+		 */
+
+		$labels = array(
+			"name" => __( "Students", "hestia" ),
+			"singular_name" => __( "Student", "hestia" ),
+		);
+
+		$args = array(
+			"label" => __( "Students", "hestia" ),
+			"labels" => $labels,
+			"description" => "",
+			"public" => true,
+			"publicly_queryable" => true,
+			"show_ui" => true,
+			"delete_with_user" => false,
+			"show_in_rest" => true,
+			"rest_base" => "",
+			"rest_controller_class" => "WP_REST_Posts_Controller",
+			"has_archive" => true,
+			"show_in_menu" => true,
+			"show_in_nav_menus" => false,
+			"exclude_from_search" => false,
+			"capability_type" => "post",
+			"map_meta_cap" => true,
+			"hierarchical" => false,
+			"rewrite" => array( "slug" => "students", "with_front" => true ),
+			"query_var" => true,
+			"menu_icon" => "dashicons-welcome-learn-more",
+			"supports" => array( "title", "editor", "thumbnail", "excerpt" ),
+		);
+		register_post_type( "w18yb_student", $args );
+	}
+
+	/**
+	 * Register cts
+	 *
+	 * @since    1.0.0
+	 */
+	public function register_cts() {
+		/**
+	 	* Taxonomy: Course.
+		*/
+
+		$labels = array(
+			"name" => __( "Course", "hestia" ),
+			"singular_name" => __( "Course", "hestia" ),
+		);
+
+		$args = array(
+			"label" => __( "Course", "hestia" ),
+			"labels" => $labels,
+			"public" => true,
+			"publicly_queryable" => true,
+			"hierarchical" => true,
+			"show_ui" => true,
+			"show_in_menu" => true,
+			"show_in_nav_menus" => true,
+			"query_var" => true,
+			"rewrite" => array( 'slug' => 'courses', 'with_front' => true,  'hierarchical' => true, ),
+			"show_admin_column" => false,
+			"show_in_rest" => true,
+			"rest_base" => "w18yb_course",
+			"rest_controller_class" => "WP_REST_Terms_Controller",
+			"show_in_quick_edit" => false,
+			);
+		register_taxonomy( "w18yb_course", array( "w18yb_student" ), $args );
+	}
+
+	/**
+	 * Register Advanced Custom Fields
+	 *
+	 * @since    1.0.0
+	 */
+	public function register_acf() {
+		if( function_exists('acf_add_local_field_group') ):
+
+		acf_add_local_field_group(array(
+			'key' => 'group_5cfe3fe3b7968',
+			'title' => 'Student Details',
+			'fields' => array(
+				array(
+					'key' => 'field_5cfe3ff22505d',
+					'label' => 'Attendance',
+					'name' => 'attendance',
+					'type' => 'number',
+					'instructions' => '',
+					'required' => 0,
+					'conditional_logic' => 0,
+					'wrapper' => array(
+						'width' => '',
+						'class' => '',
+						'id' => '',
+					),
+					'default_value' => '',
+					'placeholder' => '',
+					'prepend' => '',
+					'append' => '%',
+					'min' => 0,
+					'max' => '',
+					'step' => '',
+				),
+				array(
+					'key' => 'field_5cfe401e2505e',
+					'label' => 'Detention Hours',
+					'name' => 'detention_hours',
+					'type' => 'number',
+					'instructions' => '',
+					'required' => 0,
+					'conditional_logic' => 0,
+					'wrapper' => array(
+						'width' => '',
+						'class' => '',
+						'id' => '',
+					),
+					'default_value' => '',
+					'placeholder' => '',
+					'prepend' => '',
+					'append' => 'h',
+					'min' => '',
+					'max' => '',
+					'step' => '',
+				),
+			),
+			'location' => array(
+				array(
+					array(
+						'param' => 'post_type',
+						'operator' => '==',
+						'value' => 'w18yb_student',
+					),
+				),
+			),
+			'menu_order' => 0,
+			'position' => 'normal',
+			'style' => 'default',
+			'label_placement' => 'top',
+			'instruction_placement' => 'label',
+			'hide_on_screen' => '',
+			'active' => true,
+			'description' => '',
+		));
+
+		endif;
+	}
+
+	/**
+	 * function for filtering filter_the_content
+	 *
+	 * @since    1.0.0
+	 */
+	public function filter_the_content($content) {
+
+		if(get_post_type() === 'w18yb_student'){
+
+			$courses = get_the_term_list(get_the_ID(), 'w18yb_course', 'Courses: ', ', ');
+			$content .= '<div class="w18yb-courses">' . $courses . '</div>';
+
+			if(function_exists('get_field')){
+
+				$attendance = get_field('attendance');
+				$detention_hours = get_field('detention_hours');
+
+				$content .= '<div class="student-details">';
+				$content .= '<h2>Student Details</h2>';
+				
+				if($attendance !== false){
+					$content .= '<span>Attendance: ' . $attendance . '%</span><br>';
+				}
+				if($detention_hours !== false){
+					$content .= '<span>Detention: ' . $detention_hours . ' hours</span>';
+				}
+				$content .= '</div>';
+			}
+		}
+		return $content;
 	}
 
 	/**

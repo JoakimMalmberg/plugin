@@ -2,3 +2,33 @@
  * All of the CSS for your public-facing functionality should be
  * included in this file.
  */
+
+ 
+.w18yb-courses{
+	background-color: rgb(139, 203, 228);
+	color: aliceblue;
+	padding: 1rem;
+	margin-bottom: 1rem;
+}
+
+.w18yb-courses a {
+	color: aliceblue;
+	font-weight: bold;
+}
+
+.w18yb-courses a:hover {
+	color: aliceblue;
+	font-weight: bold;
+	text-decoration: underline;
+}
+
+.student-details{
+	background-color: rgb(228, 139, 139);
+	color: aliceblue;
+	padding: 1rem;
+}
+
+.single-post-wrap.entry-content .student-details h2 {
+	margin: 0;
+	font-size: 20px;
+}
