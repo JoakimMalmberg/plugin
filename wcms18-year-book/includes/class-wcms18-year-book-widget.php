@@ -25,7 +25,7 @@ class Wcms18_Year_Book_Widget extends WP_Widget {
 	 * @param array $instance Saved values from database.
 	 */
 	public function widget($args, $instance) {
-		if (!is_single() && get_post_type() === 'w18yb_student') {
+		if (!(is_single() && get_post_type() === 'w18yb_student')) {
 			return;
 		}
 
