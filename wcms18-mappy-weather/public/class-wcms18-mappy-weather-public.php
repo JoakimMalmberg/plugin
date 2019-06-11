@@ -53,6 +53,7 @@ class Wcms18_Mappy_Weather_Public {
 		$this->version = $version;
 
 		$this->define_shortcodes();
+		$this->define_ajax_actions();
 
 	}
 
@@ -63,20 +64,9 @@ class Wcms18_Mappy_Weather_Public {
 	 */
 	public function enqueue_styles() {
 
-		/**
-		 * This function is provided for demonstration purposes only.
-		 *
-		 * An instance of this class should be passed to the run() function
-		 * defined in Wcms18_Mappy_Weather_Loader as all of the hooks are defined
-		 * in that particular class.
-		 *
-		 * The Wcms18_Mappy_Weather_Loader will then create the relationship
-		 * between the defined hooks and the functions defined in this
-		 * class.
-		 */
-
-		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/wcms18-mappy-weather-public.css', array(), $this->version, 'all' );
-
+		
+		
+		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/wcms18-mappy-weather-public.css', [], $this->version, 'all' );
 	}
 
 	/**
@@ -86,41 +76,44 @@ class Wcms18_Mappy_Weather_Public {
 	 */
 	public function enqueue_scripts() {
 
-		/**
-		 * This function is provided for demonstration purposes only.
-		 *
-		 * An instance of this class should be passed to the run() function
-		 * defined in Wcms18_Mappy_Weather_Loader as all of the hooks are defined
-		 * in that particular class.
-		 *
-		 * The Wcms18_Mappy_Weather_Loader will then create the relationship
-		 * between the defined hooks and the functions defined in this
-		 * class.
-		 */
+		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/wcms18-mappy-weather-public.js', array( 'jquery' ), $this->version, true );
 
-		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/wcms18-mappy-weather-public.js', array( 'jquery' ), $this->version, false );
+		wp_localize_script($this->plugin_name, 'wcms18_mappy_weather_obj', [
+			'ajax_url' => admin_url('admin-ajax.php'),
+		]);
 
+		wp_enqueue_script( 
+			'google-maps',
+			'https://maps.googleapis.com/maps/api/js?key='. WCMS18_MAPPY_WEATHER_GOOGLE_MAPS_API_KEY .'&callback=initMap',
+			[], false, true 
+		);
 	}
 
 	/*
-	* Create Shortcode
+	* Create Shortcode "mappy"
 	*/
 	public function do_shortcode_mappy($user_atts) {
 		
 		// fallback if no $user_atts is set
 		$default_atts = [
-			'city' => false,
-			'country' => false,
+			'address' => false,
 		];
 
 		$atts = shortcode_atts($default_atts, $user_atts, 'mappy');
 
-		//verify that city and country is set
+		//verify that address is set
+		if($atts['address'] == false){
+			return '<div id="wcms18-mappy-weather">
+						<div class="error">Add Address to show map for.</div>
+					</div>';
+		}
 
 		//do stuff
 
 		//return stuffsies
-		return "<strong>HERE BE MAP for {$atts['city']} in {$atts['country']}</strong>";
+		return '<div id="wcms18-mappy-weather" data-address="'.$atts['address'].'">
+					<div id="map"></div><div id="weather"></div>
+				</div>';
 
 	}
 
@@ -132,5 +125,31 @@ class Wcms18_Mappy_Weather_Public {
 	public function define_shortcodes(){
 		add_shortcode('mappy', [$this, 'do_shortcode_mappy']);
 	}
+	
+	/**
+	 * Register our ajax actions.
+	 * 
+	 * @since 1.0.0.
+	 */
+	public function define_ajax_actions(){
+		add_action('wp_ajax_wcms18_mappy_weather__get', [$this, 'do_ajax_get_weather']);
+		add_action('wp_ajax_nopriv_wcms18_mappy_weather__get', [$this, 'do_ajax_get_weather']);
+	}
 
+	/**
+	 * Respond to ajax action.
+	 * 
+	 * @since 1.0.0.
+	 */
+	public function do_ajax_get_weather(){
+		$lat = $_POST['lat'];
+		$lng = $_POST['lng'];
+		$res = wapi_get_weather_for_position($lat, $lng);
+
+		if($res['success']){
+			wp_send_json_success($res['data']);
+		}else{
+			wp_send_json_error($res['error']);
+		}
+	}
 }

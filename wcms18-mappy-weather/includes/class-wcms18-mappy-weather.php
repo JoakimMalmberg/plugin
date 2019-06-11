@@ -121,6 +121,12 @@ class Wcms18_Mappy_Weather {
 		 * side of the site.
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-wcms18-mappy-weather-public.php';
+		
+		/**
+		 * Load OpenWeatherMap API File
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/wapi.php';
+
 
 		$this->loader = new Wcms18_Mappy_Weather_Loader();
 

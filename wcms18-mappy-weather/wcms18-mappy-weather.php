@@ -43,6 +43,9 @@ define( 'WCMS18_MAPPY_WEATHER_VERSION', '1.0.0' );
 define( 'WCMS18_MAPPY_WEATHERY_PLUGIN_DIR_PATH', plugin_dir_path ( __FILE__ ));
 define( 'WCMS18_MAPPY_WEATHERY_PLUGIN_DIR_URL', plugin_dir_url ( __FILE__ ));
 
+
+require_once plugin_dir_path( __FILE__ ) .'credentials.php';
+
 /**
  * The code that runs during plugin activation.
  * This action is documented in includes/class-wcms18-mappy-weather-activator.php

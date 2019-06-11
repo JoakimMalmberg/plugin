@@ -2,3 +2,21 @@
  * All of the CSS for your public-facing functionality should be
  * included in this file.
  */
+
+#wcms18-mappy-weather #map{
+	height: 55vh;
+	background-color: #DDD;
+}
+#wcms18-mappy-weather .error{
+	background-color: red;
+	color: white;
+	font-weight: bold;
+	padding: 1rem 1rem;
+}
+
+#weather{
+	text-align: center;
+	background-color: rgb(85, 129, 85);
+	color: white;
+	margin-top: 0.5rem;
+}
