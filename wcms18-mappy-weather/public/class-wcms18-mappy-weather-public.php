@@ -52,6 +52,8 @@ class Wcms18_Mappy_Weather_Public {
 		$this->plugin_name = $plugin_name;
 		$this->version = $version;
 
+		$this->define_shortcodes();
+
 	}
 
 	/**
@@ -98,6 +100,37 @@ class Wcms18_Mappy_Weather_Public {
 
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/wcms18-mappy-weather-public.js', array( 'jquery' ), $this->version, false );
 
+	}
+
+	/*
+	* Create Shortcode
+	*/
+	public function do_shortcode_mappy($user_atts) {
+		
+		// fallback if no $user_atts is set
+		$default_atts = [
+			'city' => false,
+			'country' => false,
+		];
+
+		$atts = shortcode_atts($default_atts, $user_atts, 'mappy');
+
+		//verify that city and country is set
+
+		//do stuff
+
+		//return stuffsies
+		return "<strong>HERE BE MAP for {$atts['city']} in {$atts['country']}</strong>";
+
+	}
+
+	/**
+	 * Register our plugin's shortcodes.
+	 * 
+	 * @since 1.0.0.
+	 */
+	public function define_shortcodes(){
+		add_shortcode('mappy', [$this, 'do_shortcode_mappy']);
 	}
 
 }

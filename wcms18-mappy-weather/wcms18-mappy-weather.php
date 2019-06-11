@@ -38,6 +38,12 @@ if ( ! defined( 'WPINC' ) ) {
 define( 'WCMS18_MAPPY_WEATHER_VERSION', '1.0.0' );
 
 /**
+ * plugin directory path and url
+ */
+define( 'WCMS18_MAPPY_WEATHERY_PLUGIN_DIR_PATH', plugin_dir_path ( __FILE__ ));
+define( 'WCMS18_MAPPY_WEATHERY_PLUGIN_DIR_URL', plugin_dir_url ( __FILE__ ));
+
+/**
  * The code that runs during plugin activation.
  * This action is documented in includes/class-wcms18-mappy-weather-activator.php
  */
