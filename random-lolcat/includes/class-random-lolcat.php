@@ -79,6 +79,12 @@ class Random_Lolcat {
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
 
+		// register widget
+		$this->register_widget();
+
+		// register ajax actions
+		$this->register_ajax_actions();
+
 	}
 
 	/**
@@ -111,6 +117,11 @@ class Random_Lolcat {
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-random-lolcat-i18n.php';
 
+		/**
+		 * The class responsible for the widget.
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-random-lolcat-widget.php';
+		
 		/**
 		 * The class responsible for defining all actions that occur in the admin area.
 		 */
@@ -213,6 +224,51 @@ class Random_Lolcat {
 	 */
 	public function get_version() {
 		return $this->version;
+	}
+
+	/**
+	 * Register the widget.
+	 *
+	 * @since    1.0.0
+	 */
+	public function register_widget() {
+		add_action('widgets_init', function(){
+			register_widget('Random_Lolcat_Widget');
+		});
+	}
+
+	/**
+	 * Register ajax actions
+	 *
+	 * @since    1.0.0
+	 */
+	public function register_ajax_actions() {
+		//Register action 'random_lolcat__get'
+		add_action('wp_ajax_random_lolcat__get', [$this, 'ajax_random_lolcat__get']);
+		add_action('wp_ajax_nopriv_random_lolcat__get', [$this, 'ajax_random_lolcat__get']);
+	}
+
+	/**
+	 * Respond to ajax action 'ajax_random_lolcat__get'
+	 *
+	 * @since    1.0.0
+	 */
+	public function ajax_random_lolcat__get() {
+		
+
+		//Get random lolcat image
+		$response_image = wp_remote_get('https://api.imgur.com/3/gallery/t/galleryTag');
+		if(is_wp_error( $response_image ) || wp_remote_retrieve_response_code( $response_image ) != 200){
+			wp_send_json_error([
+				'error_code' => wp_remote_retrieve_response_code( $response_image ),
+				'error_msg' => wp_remote_retrieve_response_message( $response_image ),
+			]);
+		}
+		$content_image = json_decode(wp_remote_retrieve_body( $response_image ));
+
+		wp_send_json_success([
+			'image' => $content_image->image,
+		]);
 	}
 
 }

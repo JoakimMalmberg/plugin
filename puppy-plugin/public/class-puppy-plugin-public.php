@@ -6,8 +6,8 @@
  * @link       m42.se
  * @since      1.0.0
  *
- * @package    Random_Lolcat
- * @subpackage Random_Lolcat/public
+ * @package    Puppy_Plugin
+ * @subpackage Puppy_Plugin/public
  */
 
 /**
@@ -16,11 +16,11 @@
  * Defines the plugin name, version, and two examples hooks for how to
  * enqueue the public-facing stylesheet and JavaScript.
  *
- * @package    Random_Lolcat
- * @subpackage Random_Lolcat/public
+ * @package    Puppy_Plugin
+ * @subpackage Puppy_Plugin/public
  * @author     Joakim Malmberg <jmalmberg.web@gmail.com>
  */
-class Random_Lolcat_Public {
+class Puppy_Plugin_Public {
 
 	/**
 	 * The ID of this plugin.
@@ -65,15 +65,15 @@ class Random_Lolcat_Public {
 		 * This function is provided for demonstration purposes only.
 		 *
 		 * An instance of this class should be passed to the run() function
-		 * defined in Random_Lolcat_Loader as all of the hooks are defined
+		 * defined in Puppy_Plugin_Loader as all of the hooks are defined
 		 * in that particular class.
 		 *
-		 * The Random_Lolcat_Loader will then create the relationship
+		 * The Puppy_Plugin_Loader will then create the relationship
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
 
-		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/random-lolcat-public.css', array(), $this->version, 'all' );
+		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/puppy-plugin-public.css', array(), $this->version, 'all' );
 
 	}
 
@@ -88,19 +88,16 @@ class Random_Lolcat_Public {
 		 * This function is provided for demonstration purposes only.
 		 *
 		 * An instance of this class should be passed to the run() function
-		 * defined in Random_Lolcat_Loader as all of the hooks are defined
+		 * defined in Puppy_Plugin_Loader as all of the hooks are defined
 		 * in that particular class.
 		 *
-		 * The Random_Lolcat_Loader will then create the relationship
+		 * The Puppy_Plugin_Loader will then create the relationship
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
 
-		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/random-lolcat-public.js', array( 'jquery' ), $this->version, true );
+		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/puppy-plugin-public.js', array( 'jquery' ), $this->version, false );
 
-		wp_localize_script($this->plugin_name, 'get_random_lolcat', [
-			'ajax_url' => admin_url('admin-ajax.php'),
-		]);
 	}
 
 }
